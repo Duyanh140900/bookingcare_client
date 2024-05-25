@@ -32,16 +32,15 @@
 .login-input {
   margin: 15px 0;
   position: relative;
-}
-
-label {
-  position: absolute;
-  background-color: #fff;
-  top: -8px;
-  left: 30px;
-  padding: 0 8px;
-  font-size: 11px;
-  color: #c4c4c4;
+  label {
+    position: absolute;
+    background-color: #fff;
+    top: -8px;
+    left: 30px;
+    padding: 0 8px;
+    font-size: 11px;
+    color: #c4c4c4;
+  }
 }
 
 input {

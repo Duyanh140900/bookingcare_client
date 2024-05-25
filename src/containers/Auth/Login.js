@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import "./Login.scss";
 import { LogoWGHN } from "../../assets/icons/LoadSvgIcon";
+import { baseUrl } from "../../utils/domain";
+import { pathApi } from "../../utils";
+import axios from "axios";
+import { userLoginSuccess } from "../../store/actions/userActions";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, } from "react-router-dom";
 
 export default function Login() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn)
+  console.log("isLoginedisLogined", isLoggedIn);
 
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -14,8 +25,29 @@ export default function Login() {
   };
 
   const handleLogin = () => {
-    alert(email);
+    let url = baseUrl + pathApi.LOGIN_USER;
+    axios
+      .post(url, {
+        email,
+        password,
+      })
+      .then((res) => {
+        console.log("handlelogin", res.data);
+        const { error_code, message, data } = res.data;
+        if (error_code == 0) {
+          dispatch(userLoginSuccess(data));
+        } else {
+          alert(message);
+        }
+      })
+      .catch((e) => {
+        console.log("errr login", e);
+      });
   };
+
+  if(isLoggedIn) {
+      return <Redirect to={"/system/user-manage"} />;
+  }
 
   return (
     <div className="login-background">
